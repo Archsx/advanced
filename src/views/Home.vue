@@ -6,17 +6,27 @@
     <button @click="handleClick('back')">返回上一页</button>
     <button @click="handleClick('push')">跳转到parent页面</button>
     <button @click="handleClick('replace')">替换到parent页面</button>
+    <button @click="getInfo" :style="{background:bgc}">请求数据</button>
+    <img :src="url" alt="">
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from "@/components/HelloWorld.vue";
+// import axios from 'axios'
+import { getUserInfo } from '@/api/user'
 
 export default {
   name: "home",
   components: {
     HelloWorld
+  },
+  data(){
+    return {
+      url:'',
+      bgc:''
+    }
   },
   props:{
     food:{
@@ -61,6 +71,16 @@ export default {
           name:'parent'
         })
       }
+    },
+    getInfo(){
+      // axios.post('/getUserInfo',{userId:21}).then(res => {
+      //   console.log(res)
+      // })
+      getUserInfo({userId:21}).then(res => {
+        console.log(res)
+        this.url = res.data.img
+        this.bgc = res.data.color
+      })
     }
   }
 };

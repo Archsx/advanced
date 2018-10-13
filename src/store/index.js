@@ -10,6 +10,7 @@ import saveInLocal from './plugin/saveInLocal'
 Vue.use(Vuex)
 // 以下(state,mutations,actions)都是根级别的状态，分模块的话需要用到下面的modules
 export default new Vuex.Store({
+  strict: process.env.NODE_ENV === 'development',
   state,
   getters,
   mutations,

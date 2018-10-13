@@ -11,6 +11,9 @@
     <button @click="changeUserName">修改用户名</button>
     <button @click="registerModule">动态注册模块</button>
     <p v-for="(li, index) in todoList" :key="index">{{li}}</p>
+    <!-- <a-input :value="stateValue" @input="handleStateValueChange"></a-input> -->
+    <a-input v-model="stateValue"></a-input>
+    <p>{{stateValue}}</p>
   </div>
 </template>
 
@@ -55,8 +58,17 @@ export default {
       userName: state => state.user.userName,
       appVersion:state => state.appVersion,
       // todoList:state => state.todo ? state.todo.todoList : []
-      todoList:state => state.user.todo ? state.user.todo.todoList : []
+      todoList:state => state.user.todo ? state.user.todo.todoList : [],
+      // stateValue:state => state.stateValue
     }),
+    stateValue:{
+      get() {
+        return this.$store.state.stateValue
+      },
+      set(value){
+        this.SET_STATE_VALUE(value)
+      }
+    },
     // ...mapGetters([
     //   'appNameWithVersion',
     // ]),
@@ -105,7 +117,8 @@ export default {
   methods:{
     ...mapMutations([ //这里也不需要指定模块，因为getters,actions,mutations会被vuex通通注册到全局中，不论是根级别的还是模块中的
       'SET_APP_NAME',
-      'SET_USER_NAME'
+      'SET_USER_NAME',
+      'SET_STATE_VALUE'
     ]),
     ...mapActions([
       'updateAppName'
@@ -132,6 +145,11 @@ export default {
       // this.$store.dispatch('updateAppName',{
       //   appName:'123'
       // }) 仅做示范，并无意义
+
+
+      //这是错误的演示
+      // this.$store.state.user.userName = 'haha'
+
     },
     registerModule(){
       // this.$store.registerModule('todo',{
@@ -150,6 +168,9 @@ export default {
           ]
         }
       })
+    },
+    handleStateValueChange(val){
+      this.SET_STATE_VALUE(val)
     }
   }
 }
