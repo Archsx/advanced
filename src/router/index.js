@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './router'
-import { setTitle } from '../lib/util'
+import { setTitle, setToken, getToken } from '../lib/util'
+import store from '@/store'
 
 Vue.use(Router)
 
@@ -25,6 +26,23 @@ router.beforeEach((to, from, next) => { // 全局路由守卫(前置)示例，�
       next()
     }
   }
+  // const token = getToken()
+  // if (token) {
+  //   store.dispatch('authorization', token).then(() => {
+  //     if(to.name === 'login') next({ name: 'home' })
+  //     else {
+  //       next()
+  //     }
+  //   }).catch(()=>{
+  //     setToken('')
+  //     next({name:'login'})
+  //   })
+  // } else {
+  //   if (to.name === 'login') next()
+  //   else {
+  //     next({name: "login"})
+  //   }
+  // }
 })
 
 // 感觉这个很复杂

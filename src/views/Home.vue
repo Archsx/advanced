@@ -8,6 +8,7 @@
     <button @click="handleClick('replace')">替换到parent页面</button>
     <button @click="getInfo" :style="{background:bgc}">请求数据</button>
     <img :src="url" alt="">
+    <button @click="handleLogout">退出登录</button>
   </div>
 </template>
 
@@ -16,6 +17,7 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 // import axios from 'axios'
 import { getUserInfo } from '@/api/user'
+import {mapActions} from 'vuex'
 
 export default {
   name: "home",
@@ -45,7 +47,8 @@ export default {
   beforeRouteLeave (to, from, next) {
    // console.log(to) 这时候的to又是即将到达的页面的，不是当前页面
     // ...使用场景示例：用户在当前页面编辑，然后在离开之前可以提醒他还未保存，是否确定离开
-    const leave = confirm('您确认要离开吗')
+    // const leave = confirm('您确认要离开吗')
+    let leave = true
     if(leave) next()
     else next(false) //这样可以取消页面跳转
   },
@@ -80,6 +83,15 @@ export default {
         console.log(res)
         this.url = res.data.img
         this.bgc = res.data.color
+      })
+    },
+    ...mapActions([
+      'logout'
+    ]),
+    handleLogout(){
+      this.logout()
+      this.$router.push({
+        name:'login'
       })
     }
   }

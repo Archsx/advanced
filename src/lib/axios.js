@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { baseURL } from '@/config'
+import { getToken } from '@/lib/util'
 class HttpRequest {
   constructor (baseUrl = baseURL) {
     this.baseUrl = baseUrl
@@ -22,6 +23,7 @@ class HttpRequest {
         // Spin.show()
       }
       this.queue[url] = true
+      config.headers['Authorization'] = getToken()
       return config
     }, error => {
       return Promise.reject(error)
@@ -29,8 +31,10 @@ class HttpRequest {
     instance.interceptors.response.use(res => {
       // console.log(res)
       delete this.queue[url]
-      const { data, status } = res
-      return { data, status }
+      // const { data, status } = res
+      // return { data, status }
+      const { data } = res
+      return data
     }, error => {
       delete this.queue[url]
       return Promise.reject(error)
