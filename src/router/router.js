@@ -102,7 +102,13 @@ export default [
   {
     path: '/layout',
     name: 'layout',
-    component: () => import('@/views/layout.vue')
+    component: () => import('@/views/layout.vue'),
+    children: [
+      {
+        path: 'row',
+        component: () => import('@/views/row.vue')
+      }
+    ]
   },
   {
     path: '*',
